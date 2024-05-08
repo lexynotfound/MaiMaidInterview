@@ -6,6 +6,8 @@ import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:maimaid_interview/bloc/user/users_bloc.dart';
 import 'package:maimaid_interview/screens/home_screen/home_screen.dart';
 
+import '../../data/remote/apiClient.dart';
+
 class OnboardingScreenState extends StatefulWidget {
   const OnboardingScreenState({super.key});
 
@@ -82,7 +84,8 @@ class _OnboardingScreenStateState extends State<OnboardingScreenState> {
                             MaterialPageRoute(
                               builder: (context) => BlocProvider(
                                 create: (_) =>
-                                    UsersBloc(httpClient: http.Client()),
+                                    UsersBloc(
+                                    apiClient: ApiClient(http.Client())),
                                 child: const HomeScreen(),
                               ),
                             ),

@@ -17,10 +17,6 @@ class Users {
     required this.support,
   });
 
-  factory Users.fromRawJson(String str) => Users.fromJson(json.decode(str));
-
-  String toRawJson() => json.encode(toJson());
-
   factory Users.fromJson(Map<String, dynamic> json) => Users(
         page: json["page"],
         perPage: json["per_page"],
@@ -55,10 +51,6 @@ class Datum {
     required this.avatar,
   });
 
-  factory Datum.fromRawJson(String str) => Datum.fromJson(json.decode(str));
-
-  String toRawJson() => json.encode(toJson());
-
   factory Datum.fromJson(Map<String, dynamic> json) => Datum(
         id: json["id"],
         email: json["email"],
@@ -84,10 +76,6 @@ class Support {
     required this.url,
     required this.text,
   });
-
-  factory Support.fromRawJson(String str) => Support.fromJson(json.decode(str));
-
-  String toRawJson() => json.encode(toJson());
 
   factory Support.fromJson(Map<String, dynamic> json) => Support(
         url: json["url"],

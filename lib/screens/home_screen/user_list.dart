@@ -19,9 +19,8 @@ class _UserListState extends State<UserList> {
   void initState() {
     super.initState();
     _scrollController.addListener(_onScroll);
-    _usersBloc = context.read<
-        UsersBloc>(); // Assuming UsersBloc is provided above this widget in the tree
-    _usersBloc.add(const FetchUsers(1)); // Initially load the first page
+    _usersBloc = BlocProvider.of<UsersBloc>(context);
+    _usersBloc.add(FetchUsers(1)); // Initially load the first page
   }
 
   @override
@@ -49,9 +48,8 @@ class _UserListState extends State<UserList> {
             controller: _scrollController,
             itemCount: state.hasReachedMax
                 ? state.users.length
-                : state.users.length +
-                    1, // Plus one for the loading indicator at the bottom
-            itemBuilder: (BuildContext context, int index) {
+                : state.users.length + 1, // Plus one for loading indicator
+            itemBuilder: (context, index) {
               return index >= state.users.length
                   ? const Center(child: CircularProgressIndicator())
                   : ViewCard(
