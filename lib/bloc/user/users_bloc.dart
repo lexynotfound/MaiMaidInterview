@@ -18,10 +18,12 @@ class UsersBloc extends Bloc<UsersEvent, UsersState> {
     if (state is UsersLoading) return;
     emit(UsersLoading());
 
-    final result = await apiClient.fetchUsers(page: event.page);
+    final result =
+        await apiClient.fetchUsers(page: event.page, perPage: event.perPage);
     result.fold(
       (error) => emit(UsersError(error)),
       (users) => emit(UsersLoaded(users: users.data, hasReachedMax: false)),
     );
   }
 }
+

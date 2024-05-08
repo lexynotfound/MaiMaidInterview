@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:maimaid_interview/constant/colors.dart'; // Ensure this contains necessary color definitions
 import 'package:maimaid_interview/screens/create_screen/create_screen.dart';
 import 'package:maimaid_interview/screens/home_screen/user_list.dart';
+
+import '../../bloc/user/users_bloc.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -70,18 +73,22 @@ class _HomeScreenState extends State<HomeScreen>
                 indicatorColor: const Color.fromARGB(255, 255, 170, 0),
               ),
             ),
-            const Padding(
-              padding: EdgeInsets.only(left: 20.0, top: 10.0),
-              child: Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  'Total 03 items',
-                  style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w400,
-                      color: Colors.black),
-                ),
-              ),
+             BlocBuilder<UsersBloc, UsersState>(
+              builder: (context, state) {
+                return Padding(
+                  padding: const EdgeInsets.only(left: 20.0, top: 10.0),
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      'Total ${state is UsersLoaded ? state.users.length : 0} items',
+                      style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w400,
+                          color: Colors.black),
+                    ),
+                  ),
+                );
+              },
             ),
             Expanded(
               child: TabBarView(

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import '../../bloc/user/users_bloc.dart';
 import '../custome_screen/view_card.dart';
 
@@ -20,7 +19,8 @@ class _UserListState extends State<UserList> {
     super.initState();
     _scrollController.addListener(_onScroll);
     _usersBloc = BlocProvider.of<UsersBloc>(context);
-    _usersBloc.add(FetchUsers(1)); // Initially load the first page
+    // Adjusted to include 'perPage'
+    _usersBloc.add(FetchUsers(1, perPage: 10)); // Initially load the first page
   }
 
   @override
@@ -32,8 +32,9 @@ class _UserListState extends State<UserList> {
   void _onScroll() {
     if (_scrollController.position.pixels ==
         _scrollController.position.maxScrollExtent) {
-      _usersBloc.add(
-          FetchUsers((_usersBloc.state as UsersLoaded).users.length ~/ 10 + 1));
+      // Calculate the next page number and include 'perPage'
+      int nextPage = (_usersBloc.state as UsersLoaded).users.length ~/ 10 + 1;
+      _usersBloc.add(FetchUsers(nextPage, perPage: 10));
     }
   }
 
@@ -41,23 +42,25 @@ class _UserListState extends State<UserList> {
   Widget build(BuildContext context) {
     return BlocBuilder<UsersBloc, UsersState>(
       builder: (context, state) {
-        if (state is UsersLoading && state is! UsersLoaded) {
+        if (state is UsersLoading && !(state is UsersLoaded)) {
           return const Center(child: CircularProgressIndicator());
         } else if (state is UsersLoaded) {
           return ListView.builder(
             controller: _scrollController,
             itemCount: state.hasReachedMax
                 ? state.users.length
-                : state.users.length + 1, // Plus one for loading indicator
+                : state.users.length + 1,
             itemBuilder: (context, index) {
-              return index >= state.users.length
-                  ? const Center(child: CircularProgressIndicator())
-                  : ViewCard(
-                      imageUrl: state.users[index].avatar,
-                      firstName: state.users[index].firstName,
-                      lastName: state.users[index].lastName,
-                      email: state.users[index].email,
-                    );
+              if (index >= state.users.length) {
+                return const Center(child: CircularProgressIndicator());
+              } else {
+                return ViewCard(
+                  imageUrl: state.users[index].avatar,
+                  firstName: state.users[index].firstName,
+                  lastName: state.users[index].lastName,
+                  email: state.users[index].email,
+                );
+              }
             },
           );
         } else if (state is UsersError) {

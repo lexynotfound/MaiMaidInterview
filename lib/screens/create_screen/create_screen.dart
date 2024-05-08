@@ -59,18 +59,18 @@ class _CreateScreenState extends State<CreateScreen> {
                 const Divider(),
                 const SizedBox(height: 20),
                 ListTile(
-                  title: Text('Front End'),
-                  trailing: Icon(Icons.arrow_circle_right_outlined),
+                  title: const Text('Front End'),
+                  trailing: const Icon(Icons.arrow_circle_right_outlined),
                   onTap: () => Navigator.pop(context, 'Front End'),
                 ),
                 ListTile(
-                  title: Text('Back End'),
-                  trailing: Icon(Icons.arrow_circle_right_outlined),
+                  title: const Text('Back End'),
+                  trailing: const Icon(Icons.arrow_circle_right_outlined),
                   onTap: () => Navigator.pop(context, 'Back End'),
                 ),
                 ListTile(
-                  title: Text('Data Analyst'),
-                  trailing: Icon(Icons.arrow_circle_right_outlined),
+                  title: const Text('Data Analyst'),
+                  trailing: const Icon(Icons.arrow_circle_right_outlined),
                   onTap: () => Navigator.pop(context, 'Data Analyst'),
                 ),
 

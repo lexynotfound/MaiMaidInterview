@@ -7,7 +7,8 @@ abstract class UsersEvent extends Equatable {
 
 class FetchUsers extends UsersEvent {
   final int page;
-  FetchUsers(this.page);
+  final int perPage;
+  FetchUsers(this.page, {this.perPage = 10});
 
   @override
   List<Object> get props => [page];
