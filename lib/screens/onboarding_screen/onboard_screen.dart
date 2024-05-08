@@ -3,9 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:http/http.dart' as http;
 import 'package:maimaid_interview/screens/onboarding_screen/onboarding_page.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
-
-import '../../bloc/user/users_bloc.dart';
-import '../../screens/home_screen/home_screen.dart';
+import 'package:maimaid_interview/bloc/user/users_bloc.dart';
+import 'package:maimaid_interview/screens/home_screen/home_screen.dart';
 
 class OnboardingScreenState extends StatefulWidget {
   const OnboardingScreenState({super.key});
@@ -66,35 +65,49 @@ class _OnboardingScreenStateState extends State<OnboardingScreenState> {
             },
           ),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 35.0),
+            padding:
+                const EdgeInsets.symmetric(horizontal: 16.0, vertical: 35.0),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 ElevatedButton(
                   onPressed: () {
-                    if (_controller.page == 3) {
-                      // Last page
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => BlocProvider(
-                            create: (_) => UsersBloc(httpClient: http.Client()),
-                            child: const HomeScreen(),
-                          ),
-                        ),
-                      );
-                    } else {
-                      _controller.nextPage(
-                        duration: const Duration(milliseconds: 200),
-                        curve: Curves.easeInOut,
-                      );
+                    if (_controller.hasClients) {
+                      WidgetsBinding.instance.addPostFrameCallback((_) {
+                        int currentPage = _controller.page!.toInt();
+                        if (currentPage == 3) {
+                          // Last page
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => BlocProvider(
+                                create: (_) =>
+                                    UsersBloc(httpClient: http.Client()),
+                                child: const HomeScreen(),
+                              ),
+                            ),
+                          );
+                        } else {
+                          _controller.nextPage(
+                            duration: const Duration(milliseconds: 200),
+                            curve: Curves.easeInOut,
+                          );
+                        }
+                      });
                     }
                   },
-                  child: Text(
-                    _controller.page == 3 ? 'Get Started' : 'Next',
-                  ),
+                  child: Builder(builder: (context) {
+                    // Ensure controller is ready before evaluating the button text
+                    return Text(_controller.hasClients &&
+                            _controller.page != null &&
+                            _controller.page!.toInt() == 3
+                        ? 'Get Started'
+                        : 'Next');
+                  }),
                 ),
-                if (_controller.page != 0)
+                if (_controller.hasClients &&
+                    _controller.page != null &&
+                    _controller.page!.toInt() != 0)
                   TextButton(
                     onPressed: () {
                       _controller.previousPage(
