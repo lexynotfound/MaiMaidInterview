@@ -9,7 +9,7 @@ class ApiClient {
 
   ApiClient(this.httpClient);
 
-  Future<Either<String, Users>> fetchUsers(int page) async {
+  Future<Either<String, Users>> fetchUsers({int page = 1}) async {
     final String url = '${Variables.baseUrl}/users?page=$page';
     try {
       final response = await httpClient.get(Uri.parse(url), headers: {
@@ -29,4 +29,3 @@ class ApiClient {
     }
   }
 }
-

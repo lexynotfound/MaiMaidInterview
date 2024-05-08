@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:maimaid_interview/screens/onboarding_screen/onboard_screen.dart';
 import 'package:maimaid_interview/screens/splash_screen/splash_screen.dart';
 
 void main() {
