@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:maimaid_interview/screens/onboarding_screen/onboard_screen.dart';
+import 'package:maimaid_interview/screens/splash_screen/splash_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -14,10 +15,10 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: ColorScheme.fromSeed(seedColor: Color.fromARGB(255, 255, 255, 255)),
         useMaterial3: true,
       ),
-      home: const OnboardingScreenState(),
+      home: const SplashScreen(),
     );
   }
 }
